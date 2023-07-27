@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from fastapi import FastAPI
 from typing import Optional
-from pydantic import BaseModel,constr
+from pydantic import BaseModel
 # Load the XGBoost model from the .pkl file
 with open("models/regressor_house.pkl", "rb") as model_file:
     xgb_model = pickle.load(model_file)
@@ -14,7 +14,7 @@ print("Model Loaded Successfully!")
 app = FastAPI()
 
 class Body(BaseModel):
-     area: int
+     area: int=0
      property_type:  str=0
      rooms_number: int =0
      zip_code: int=0
@@ -37,8 +37,7 @@ def start():
 
 @app.post("/input")
 def inputing_data(data: Body):
-    try:
-       
+    try:    
         return data
     except ValueError:
        
